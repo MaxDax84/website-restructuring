@@ -378,12 +378,8 @@ def estimate_complexity(url):
     html_in  = (manifest_chars + html_chars) // 4 + 600
     total_in = css_in + html_in
 
-    # --- Costo centrale ---
-    cost_central = (total_in / 1_000_000 * PRICE_IN) + (total_out / 1_000_000 * PRICE_OUT)
-
-    # --- Range ±20% ---
-    cost_min = round(cost_central * 0.80, 3)
-    cost_max = round(cost_central * 1.20, 3)
+    # --- Costo stimato (±20-25% di variazione reale) ---
+    cost_est = round((total_in / 1_000_000 * PRICE_IN) + (total_out / 1_000_000 * PRICE_OUT), 3)
 
     if n_sec <= 6:
         level = "semplice"
@@ -397,8 +393,7 @@ def estimate_complexity(url):
         "city":       city,
         "sections":   n_sec,
         "images":     n_img,
-        "cost_min":   cost_min,
-        "cost_max":   cost_max,
+        "cost_est":   cost_est,
         "level":      level,
         "manifest":   manifest,
         "image_urls": image_urls,

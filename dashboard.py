@@ -445,10 +445,10 @@ function analyzeNewSite(){
       '<tr><td style="padding:5px 0;color:#8A7B70">Immagini trovate</td><td><strong>'+d.images+'</strong></td></tr>'+
       cityRow+
       '<tr><td style="padding:5px 0;color:#8A7B70">Complessita</td><td><strong style="color:'+lvlColor+'">'+lvlLabel+'</strong></td></tr>'+
-      '<tr><td style="padding:5px 0;color:#8A7B70">Costo stimato</td><td><strong style="color:#B8935A">$'+d.cost_min+' - $'+d.cost_max+'</strong></td></tr>'+
+      '<tr><td style="padding:5px 0;color:#8A7B70">Costo stimato</td><td><strong style="color:#B8935A">~$'+d.cost_est+'</strong></td></tr>'+
       '</table>';
 
-    document.getElementById('btn-claude').textContent = 'Genera con Claude (~$'+d.cost_max+')';
+    document.getElementById('btn-claude').textContent = 'Genera con Claude (~$'+d.cost_est+')';
 
     // Popola i campi hidden di tutti e tre i form
     ['' ,'-t', '-m'].forEach(id=>{
@@ -541,8 +541,7 @@ def analyze():
             "images":   result["images"],
             "city":     result["city"],
             "level":    result["level"],
-            "cost_min": result["cost_min"],
-            "cost_max": result["cost_max"],
+            "cost_est": result["cost_est"],
         })
     except Exception as e:
         return jsonify({"error": str(e)})
