@@ -1,0 +1,29 @@
+# Secrets e credenziali — MAI in git
+.env
+credentials.json
+Website Restructuring.txt
+
+# Claude Code locale
+.claude/
+
+# Dipendenze Python
+venv/
+__pycache__/
+*.pyc
+*.pyo
+.Python
+
+# File generati e client data
+clienti/
+mockups_registry.json
+
+# Log e temp
+*.log
+*.tmp
+dashboard_test*.log
+_site_content.txt
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini

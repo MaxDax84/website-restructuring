@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nuova Immagine Coiffeur – Parrucchiere Donna a Milano</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --cream:    #FAF7F2;
+      --cream-md: #F0E8DA;
+      --gold:     #B8935A;
+      --gold-dk:  #9A7A45;
+      --dark:     #1C1814;
+      --mid:      #5C4E42;
+      --light-txt:#8A7B70;
+      --white:    #FFFFFF;
+      --radius:   4px;
+      --max:      1100px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--cream);
+      color: var(--dark);
+      font-size: 16px;
+      line-height: 1.65;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 18px 40px;
+      background: rgba(250,247,242,0.92);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--cream-md);
+    }
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.15rem;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      color: var(--dark);
+      text-decoration: none;
+    }
+    .nav-links {
+      display: flex; gap: 32px; list-style: none;
+    }
+    .nav-links a {
+      font-size: 0.85rem; font-weight: 500;
+      color: var(--mid); text-decoration: none;
+      letter-spacing: 0.05em; text-transform: uppercase;
+      transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--gold); }
+    .btn {
+      display: inline-block;
+      padding: 11px 26px;
+      background: var(--gold);
+      color: var(--white);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.85rem; font-weight: 500;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      text-decoration: none; border-radius: var(--radius);
+      transition: background .2s;
+    }
+    .btn:hover { background: var(--gold-dk); }
+    .btn-outline {
+      background: transparent;
+      border: 1.5px solid var(--gold);
+      color: var(--gold);
+    }
+    .btn-outline:hover { background: var(--gold); color: var(--white); }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: flex; align-items: center;
+      background: linear-gradient(135deg, #1C1814 0%, #3B2D20 60%, #5C4030 100%);
+      position: relative; overflow: hidden;
+      padding: 120px 40px 80px;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 60% 80% at 80% 50%, rgba(184,147,90,.18) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 60% at 10% 80%, rgba(184,147,90,.08) 0%, transparent 60%);
+    }
+    .hero-inner {
+      position: relative; z-index: 1;
+      max-width: var(--max); margin: 0 auto; width: 100%;
+    }
+    .hero-eyebrow {
+      display: inline-block;
+      font-size: 0.75rem; font-weight: 500;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 20px;
+    }
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.8rem, 6vw, 5rem);
+      font-weight: 700; line-height: 1.12;
+      color: var(--white);
+      max-width: 680px; margin-bottom: 24px;
+    }
+    .hero h1 em { font-style: italic; color: var(--gold); }
+    .hero p {
+      font-size: 1.1rem; color: rgba(255,255,255,.7);
+      max-width: 480px; margin-bottom: 40px;
+    }
+    .hero-ctas { display: flex; gap: 14px; flex-wrap: wrap; }
+    .hero-since {
+      position: absolute; bottom: 50px; right: 40px;
+      text-align: right;
+    }
+    .hero-since .since-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 5rem; font-weight: 700;
+      color: rgba(184,147,90,.15); line-height: 1;
+    }
+    .hero-since .since-label {
+      font-size: 0.75rem; letter-spacing: .14em;
+      text-transform: uppercase; color: rgba(255,255,255,.35);
+    }
+
+    /* ── SECTION WRAPPER ── */
+    section { padding: 96px 40px; }
+    .container { max-width: var(--max); margin: 0 auto; }
+    .section-eyebrow {
+      font-size: 0.72rem; font-weight: 500;
+      letter-spacing: .18em; text-transform: uppercase;
+      color: var(--gold); display: block; margin-bottom: 12px;
+    }
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.9rem, 3.5vw, 2.8rem);
+      font-weight: 700; line-height: 1.22;
+      color: var(--dark); margin-bottom: 16px;
+    }
+    .section-sub {
+      font-size: 1rem; color: var(--mid);
+      max-width: 540px; margin-bottom: 56px;
+    }
+
+    /* ── SERVICES ── */
+    .services { background: var(--white); }
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2px;
+    }
+    .service-card {
+      padding: 48px 36px;
+      background: var(--cream);
+      transition: background .25s;
+      position: relative;
+    }
+    .service-card:hover { background: var(--cream-md); }
+    .service-card::before {
+      content: '';
+      position: absolute; top: 0; left: 36px;
+      width: 32px; height: 2px; background: var(--gold);
+    }
+    .service-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 3rem; font-weight: 700;
+      color: var(--cream-md); line-height: 1;
+      margin-bottom: 16px;
+    }
+    .service-card:hover .service-num { color: rgba(184,147,90,.2); }
+    .service-card h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.35rem; font-weight: 600;
+      color: var(--dark); margin-bottom: 12px;
+    }
+    .service-card p { font-size: 0.93rem; color: var(--mid); }
+
+    /* ── ABOUT ── */
+    .about { background: var(--dark); color: var(--white); }
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px; align-items: center;
+    }
+    .about .section-title { color: var(--white); }
+    .about .section-sub { color: rgba(255,255,255,.6); max-width: 100%; }
+    .about-body {
+      font-size: 1rem; color: rgba(255,255,255,.7);
+      margin-bottom: 32px; line-height: 1.75;
+    }
+    .about-stats {
+      display: flex; gap: 48px; margin-top: 40px;
+    }
+    .stat-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.8rem; font-weight: 700;
+      color: var(--gold); line-height: 1;
+      display: block;
+    }
+    .stat-label {
+      font-size: 0.78rem; letter-spacing: .1em;
+      text-transform: uppercase; color: rgba(255,255,255,.45);
+      display: block; margin-top: 6px;
+    }
+    .about-quote {
+      background: rgba(255,255,255,.04);
+      border-left: 3px solid var(--gold);
+      padding: 32px 36px; border-radius: var(--radius);
+    }
+    .about-quote blockquote {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.35rem; font-style: italic;
+      color: rgba(255,255,255,.85); line-height: 1.55;
+      margin-bottom: 20px;
+    }
+    .about-quote cite {
+      font-size: 0.78rem; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--gold);
+      font-style: normal;
+    }
+
+    /* ── PRICING ── */
+    .pricing { background: var(--cream); }
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+    }
+    .price-card {
+      background: var(--white);
+      border: 1px solid var(--cream-md);
+      border-radius: calc(var(--radius) * 2);
+      padding: 40px 32px;
+      transition: box-shadow .25s, transform .25s;
+    }
+    .price-card:hover {
+      box-shadow: 0 12px 48px rgba(28,24,20,.08);
+      transform: translateY(-4px);
+    }
+    .price-card.featured {
+      background: var(--dark);
+      border-color: var(--gold);
+      color: var(--white);
+    }
+    .price-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.25rem; font-weight: 600;
+      margin-bottom: 8px;
+    }
+    .price-desc {
+      font-size: 0.88rem; color: var(--mid); margin-bottom: 28px;
+    }
+    .price-card.featured .price-desc { color: rgba(255,255,255,.55); }
+    .price-amount {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.8rem; font-weight: 700;
+      line-height: 1; color: var(--gold);
+      margin-bottom: 4px;
+    }
+    .price-amount span {
+      font-size: 1.1rem; font-weight: 400; vertical-align: top;
+      padding-top: 8px; display: inline-block;
+    }
+    .price-from {
+      font-size: 0.8rem; color: var(--light-txt); margin-bottom: 28px;
+    }
+    .price-card.featured .price-from { color: rgba(255,255,255,.4); }
+    .price-includes {
+      list-style: none; margin-bottom: 32px;
+    }
+    .price-includes li {
+      font-size: 0.88rem; color: var(--mid);
+      padding: 8px 0; border-bottom: 1px solid var(--cream-md);
+      display: flex; align-items: center; gap: 10px;
+    }
+    .price-card.featured .price-includes li {
+      color: rgba(255,255,255,.65);
+      border-color: rgba(255,255,255,.08);
+    }
+    .price-includes li::before {
+      content: '✓'; color: var(--gold);
+      font-weight: 600; font-size: 0.8rem; flex-shrink: 0;
+    }
+    .price-card .btn { width: 100%; text-align: center; }
+
+    /* ── REVIEWS ── */
+    .reviews { background: var(--white); }
+    .reviews-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 24px;
+    }
+    .review-card {
+      background: var(--cream);
+      padding: 32px 28px; border-radius: calc(var(--radius) * 2);
+    }
+    .review-stars {
+      color: var(--gold); font-size: 0.85rem;
+      letter-spacing: 2px; margin-bottom: 16px;
+    }
+    .review-text {
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem; font-style: italic;
+      color: var(--dark); line-height: 1.65;
+      margin-bottom: 20px;
+    }
+    .review-author {
+      font-size: 0.8rem; font-weight: 500;
+      letter-spacing: .06em; text-transform: uppercase;
+      color: var(--light-txt);
+    }
+
+    /* ── CONTACT ── */
+    .contact { background: var(--cream-md); }
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px; align-items: start;
+    }
+    .contact-info { }
+    .info-block { margin-bottom: 36px; }
+    .info-label {
+      font-size: 0.72rem; font-weight: 500;
+      letter-spacing: .16em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 6px;
+    }
+    .info-value {
+      font-size: 1rem; color: var(--dark);
+    }
+    .info-value a { color: var(--dark); text-decoration: none; }
+    .info-value a:hover { color: var(--gold); }
+    .hours-table { width: 100%; border-collapse: collapse; }
+    .hours-table tr td {
+      padding: 7px 0;
+      font-size: 0.93rem; color: var(--mid);
+      border-bottom: 1px solid rgba(0,0,0,.07);
+    }
+    .hours-table tr td:first-child { color: var(--dark); font-weight: 500; }
+    .hours-table tr:last-child td { border-bottom: none; }
+    .hours-table .closed { color: var(--light-txt); font-style: italic; }
+    .map-container {
+      border-radius: calc(var(--radius) * 2);
+      overflow: hidden;
+      box-shadow: 0 8px 32px rgba(28,24,20,.1);
+    }
+    .map-container iframe {
+      width: 100%; height: 380px;
+      border: 0; display: block;
+    }
+
+    /* ── FAQ ── */
+    .faq { background: var(--white); }
+    .faq-list { max-width: 680px; }
+    .faq-item {
+      border-bottom: 1px solid var(--cream-md);
+      padding: 24px 0;
+    }
+    .faq-q {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.05rem; font-weight: 600;
+      color: var(--dark); margin-bottom: 10px;
+    }
+    .faq-a { font-size: 0.93rem; color: var(--mid); }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--dark); color: rgba(255,255,255,.5);
+      padding: 40px; text-align: center;
+      font-size: 0.82rem;
+    }
+    footer strong { color: rgba(255,255,255,.8); }
+    .footer-gold { color: var(--gold); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      nav { padding: 16px 20px; }
+      .nav-links { display: none; }
+      section { padding: 64px 20px; }
+      .hero { padding: 100px 20px 60px; }
+      .hero-since { display: none; }
+      .about-grid { grid-template-columns: 1fr; gap: 48px; }
+      .contact-grid { grid-template-columns: 1fr; gap: 40px; }
+      .about-stats { gap: 32px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">Nuova Immagine Coiffeur</a>
+  <ul class="nav-links">
+    <li><a href="#servizi">Servizi</a></li>
+    <li><a href="#tariffe">Tariffe</a></li>
+    <li><a href="#salone">Il Salone</a></li>
+    <li><a href="#contatti">Contatti</a></li>
+  </ul>
+  <a href="tel:025379821" class="btn">Prenota ora</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <span class="hero-eyebrow">Parrucchiere Donna · Milano Brenta</span>
+    <h1>La tua bellezza,<br/><em>da quarant'anni</em><br/>nelle giuste mani.</h1>
+    <p>In Piazza Geremia Bonomelli 4, Carmelo ti accoglie con tagli sartoriali, colore professionale e una cura che si sente.</p>
+    <div class="hero-ctas">
+      <a href="tel:025379821" class="btn">Prenota un appuntamento</a>
+      <a href="#servizi" class="btn btn-outline">Scopri i servizi</a>
+    </div>
+  </div>
+  <div class="hero-since">
+    <div class="since-num">1984</div>
+    <div class="since-label">Anno di fondazione</div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="services" id="servizi">
+  <div class="container">
+    <span class="section-eyebrow">Cosa facciamo</span>
+    <h2 class="section-title">Tutto quello che serve<br/>per la tua bellezza</h2>
+    <p class="section-sub">Una gamma completa di servizi pensati per valorizzare la tua immagine con cura artigianale e professionalità.</p>
+    <div class="services-grid">
+      <div class="service-card">
+        <div class="service-num">01</div>
+        <h3>Taglio sartoriale</h3>
+        <p>Tagli personalizzati che valorizzano i tuoi lineamenti e il tuo stile unico. Studiato sulla forma del viso e la texture dei capelli.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-num">02</div>
+        <h3>Colore e Colpi di Sole</h3>
+        <p>Colori brillanti e duraturi con trattamenti che mantengono la salute dei capelli. Test preliminare incluso.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-num">03</div>
+        <h3>Piega e styling</h3>
+        <p>Acconciature curate con tecniche professionali per un risultato duraturo ed elegante.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about" id="salone">
+  <div class="container">
+    <div class="about-grid">
+      <div>
+        <span class="section-eyebrow">La nostra storia</span>
+        <h2 class="section-title">Passione e competenza<br/>nel cuore di Milano</h2>
+        <p class="about-body">
+          In Piazza Geremia Bonomelli 4, Nuova Immagine Coiffeur nasce dalla dedizione di Carmelo, che dal 1984 cura ogni cliente con attenzione artigianale e calore umano. Una storia di fiducia costruita nel tempo, nel quartiere Brenta-Lodi-Corvetto.
+        </p>
+        <p class="about-body">
+          Qui la bellezza nasce dall'ascolto: ogni appuntamento è una conversazione, ogni taglio una scelta condivisa.
+        </p>
+        <div class="about-stats">
+          <div>
+            <span class="stat-num">40+</span>
+            <span class="stat-label">Anni di esperienza</span>
+          </div>
+          <div>
+            <span class="stat-num">5★</span>
+            <span class="stat-label">Su Google</span>
+          </div>
+        </div>
+      </div>
+      <div class="about-quote">
+        <blockquote>"Carmelo è tutto: parrucchiere eccezionale e un po' psicologo. Ci si sente davvero a casa."</blockquote>
+        <cite>— Enrica R., cliente da anni</cite>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing" id="tariffe">
+  <div class="container">
+    <span class="section-eyebrow">I nostri prezzi</span>
+    <h2 class="section-title">Servizi su misura<br/>per ogni esigenza</h2>
+    <p class="section-sub">Prezzi chiari, senza sorprese. Ogni servizio è pensato per valorizzare la tua bellezza naturale.</p>
+    <div class="pricing-grid">
+
+      <div class="price-card">
+        <div class="price-name">Piega e acconciatura</div>
+        <div class="price-desc">Piega professionale per capelli morbidi e lucenti</div>
+        <div class="price-amount"><span>da</span> 20<span>€</span></div>
+        <div class="price-from">&nbsp;</div>
+        <ul class="price-includes">
+          <li>Shampoo professionale</li>
+          <li>Creme e fissatori</li>
+          <li>Acconciatura personalizzata</li>
+        </ul>
+        <a href="tel:025379821" class="btn btn-outline">Prenota</a>
+      </div>
+
+      <div class="price-card featured">
+        <div class="price-name">Taglio sartoriale</div>
+        <div class="price-desc">Taglio studiato sulla forma del viso e la texture dei capelli</div>
+        <div class="price-amount"><span></span>23<span>€</span></div>
+        <div class="price-from">&nbsp;</div>
+        <ul class="price-includes">
+          <li>Shampoo incluso</li>
+          <li>Creme e fissatori</li>
+          <li>Rifinitura dettagliata</li>
+        </ul>
+        <a href="tel:025379821" class="btn">Prenota</a>
+      </div>
+
+      <div class="price-card">
+        <div class="price-name">Colorazione e Colpi di Sole</div>
+        <div class="price-desc">Colore profondo e duraturo con trattamenti nutrienti</div>
+        <div class="price-amount"><span>da</span> 32<span>€</span></div>
+        <div class="price-from">&nbsp;</div>
+        <ul class="price-includes">
+          <li>Shampoo incluso</li>
+          <li>Test preliminare</li>
+          <li>Creme e fissatori</li>
+          <li>Colorazione completa</li>
+        </ul>
+        <a href="tel:025379821" class="btn btn-outline">Prenota</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- REVIEWS -->
+<section class="reviews">
+  <div class="container">
+    <span class="section-eyebrow">Recensioni clienti</span>
+    <h2 class="section-title">La fiducia delle donne<br/>che si affidano a noi</h2>
+    <p class="section-sub">Da quarant'anni a Milano, costruiamo relazioni durature con le donne del quartiere Brenta-Lodi-Corvetto.</p>
+    <div class="reviews-grid">
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">"Carmelo mi conosce da anni e sa esattamente cosa mi sta bene. È più di un parrucchiere, è una persona davvero di fiducia."</p>
+        <div class="review-author">Francesca M.</div>
+      </div>
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">"Professionista eccellente, mi ha messa subito a mio agio. Risultato impeccabile e prezzi più che onesti!"</p>
+        <div class="review-author">Alessandra N.</div>
+      </div>
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">"Carmelo ha capito subito quello che volevo e mi ha fatta sentire bellissima. Non potevo chiedere di meglio, grazie mille!"</p>
+        <div class="review-author">Luciana Y.</div>
+      </div>
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">"Frequento questo salone da tantissimo tempo e non lo cambierei per nessun motivo. Ci si sente davvero a casa."</p>
+        <div class="review-author">Enrica R.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contatti">
+  <div class="container">
+    <span class="section-eyebrow">Dove siamo</span>
+    <h2 class="section-title">Vieni a trovarci</h2>
+    <div class="contact-grid">
+      <div class="contact-info">
+        <div class="info-block">
+          <div class="info-label">Indirizzo</div>
+          <div class="info-value">Piazza Geremia Bonomelli 4<br/>20139 Milano (Brenta-Lodi-Corvetto)</div>
+        </div>
+        <div class="info-block">
+          <div class="info-label">Telefono</div>
+          <div class="info-value"><a href="tel:025379821">02 537982</a></div>
+        </div>
+        <div class="info-block">
+          <div class="info-label">Orari di apertura</div>
+          <table class="hours-table">
+            <tr><td>Lunedì</td><td class="closed">Chiuso</td></tr>
+            <tr><td>Martedì</td><td>09:00 – 19:00</td></tr>
+            <tr><td>Mercoledì</td><td>09:00 – 19:00</td></tr>
+            <tr><td>Giovedì</td><td>09:00 – 19:00</td></tr>
+            <tr><td>Venerdì</td><td>09:00 – 19:00</td></tr>
+            <tr><td>Sabato</td><td>08:30 – 19:00</td></tr>
+            <tr><td>Domenica</td><td class="closed">Chiuso</td></tr>
+          </table>
+        </div>
+        <a href="tel:025379821" class="btn">Chiama ora per prenotare</a>
+      </div>
+      <div>
+        <div class="map-container">
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2799.7!2d9.2044!3d45.4408!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4786c6a5cdbf09c9%3A0x1!2sPiazza+Geremia+Bonomelli+4%2C+20139+Milano!5e0!3m2!1sit!2sit!4v1"
+            allowfullscreen="" loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade">
+          </iframe>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq">
+  <div class="container">
+    <span class="section-eyebrow">Domande frequenti</span>
+    <h2 class="section-title">Hai domande?</h2>
+    <div class="faq-list">
+      <div class="faq-item">
+        <div class="faq-q">È necessario prenotare?</div>
+        <div class="faq-a">È consigliato prenotare telefonicamente per garantire disponibilità, soprattutto il sabato. In settimana siamo spesso disponibili anche senza prenotazione.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Quando siete aperti?</div>
+        <div class="faq-a">Dal martedì al venerdì 09:00–19:00, il sabato dalle 08:30 alle 19:00. Chiusi lunedì e domenica.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Il salone è solo per donne?</div>
+        <div class="faq-a">Il salone è specializzato per capelli donna, ma accogliamo chiunque desideri una cura professionale.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Dove si trova il salone?</div>
+        <div class="faq-a">Siamo in Piazza Geremia Bonomelli 4, 20139 Milano, nel quartiere Brenta-Lodi-Corvetto, facilmente raggiungibile con i mezzi pubblici.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p><strong>Nuova Immagine Coiffeur</strong> &nbsp;·&nbsp; Piazza Geremia Bonomelli 4, 20139 Milano &nbsp;·&nbsp; <a href="tel:025379821" class="footer-gold">02 537982</a></p>
+  <p style="margin-top:10px">© 2025 Nuova Immagine Coiffeur &nbsp;·&nbsp; <span style="font-size:.78rem">Sito realizzato da <span class="footer-gold">Massimo Dassano</span></span></p>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{{ b.name }} – {{ b.category }} a {{ b.city }}</title>
+  <meta name="description" content="{{ b.description[:155] }}" />
+  <meta name="robots" content="noindex, nofollow" />
+  <meta property="og:title"       content="{{ b.name }} – {{ b.category }} a {{ b.city }}" />
+  <meta property="og:description" content="{{ b.description[:155] }}" />
+  <meta property="og:type"        content="website" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --cream: #FAF7F2; --cream-md: #F0E8DA;
+      --gold: #B8935A; --gold-dk: #9A7A45;
+      --dark: #1C1814; --mid: #5C4E42; --light-txt: #8A7B70;
+      --white: #FFFFFF; --radius: 4px; --max: 1100px;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--dark); font-size: 16px; line-height: 1.65; }
+
+    /* NAV */
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 18px 40px; background: rgba(250,247,242,.92); backdrop-filter: blur(8px); border-bottom: 1px solid var(--cream-md); }
+    .nav-logo { font-family: 'Playfair Display', serif; font-size: 1.15rem; font-weight: 600; color: var(--dark); text-decoration: none; }
+    .nav-links { display: flex; gap: 32px; list-style: none; }
+    .nav-links a { font-size: .85rem; font-weight: 500; color: var(--mid); text-decoration: none; letter-spacing: .05em; text-transform: uppercase; transition: color .2s; }
+    .nav-links a:hover { color: var(--gold); }
+    .btn { display: inline-block; padding: 11px 26px; background: var(--gold); color: var(--white); font-family: 'DM Sans', sans-serif; font-size: .85rem; font-weight: 500; letter-spacing: .06em; text-transform: uppercase; text-decoration: none; border-radius: var(--radius); transition: background .2s; border: none; cursor: pointer; }
+    .btn:hover { background: var(--gold-dk); }
+    .btn-outline { background: transparent; border: 1.5px solid var(--gold); color: var(--gold); }
+    .btn-outline:hover { background: var(--gold); color: var(--white); }
+
+    /* HERO */
+    .hero { min-height: 100vh; display: flex; align-items: center; background: linear-gradient(135deg, #1C1814 0%, #3B2D20 60%, #5C4030 100%); position: relative; overflow: hidden; padding: 120px 40px 80px; }
+    .hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 60% 80% at 80% 50%, rgba(184,147,90,.18) 0%, transparent 70%), radial-gradient(ellipse 40% 60% at 10% 80%, rgba(184,147,90,.08) 0%, transparent 60%); }
+    .hero-inner { position: relative; z-index: 1; max-width: var(--max); margin: 0 auto; width: 100%; display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+    .hero-eyebrow { display: inline-block; font-size: .75rem; font-weight: 500; letter-spacing: .18em; text-transform: uppercase; color: var(--gold); margin-bottom: 20px; }
+    .hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(2.8rem, 6vw, 5rem); font-weight: 700; line-height: 1.12; color: var(--white); max-width: 680px; margin-bottom: 24px; }
+    .hero h1 em { font-style: italic; color: var(--gold); }
+    .hero p { font-size: 1.1rem; color: rgba(255,255,255,.7); max-width: 480px; margin-bottom: 40px; }
+    .hero-ctas { display: flex; gap: 14px; flex-wrap: wrap; }
+    .hero-image-wrap { border-radius: 8px; overflow: hidden; height: 520px; position: relative; }
+    .hero-image-wrap::after { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(28,24,20,.25) 0%, transparent 60%); }
+    .hero-image-wrap img { width: 100%; height: 100%; object-fit: cover; }
+    {% if b.year %}
+    .hero-since { position: absolute; bottom: 50px; right: 40px; text-align: right; }
+    .since-num { font-family: 'Playfair Display', serif; font-size: 5rem; font-weight: 700; color: rgba(184,147,90,.15); line-height: 1; }
+    .since-label { font-size: .75rem; letter-spacing: .14em; text-transform: uppercase; color: rgba(255,255,255,.35); }
+    {% endif %}
+
+    /* SECTIONS */
+    section { padding: 96px 40px; }
+    .container { max-width: var(--max); margin: 0 auto; }
+    .section-eyebrow { font-size: .72rem; font-weight: 500; letter-spacing: .18em; text-transform: uppercase; color: var(--gold); display: block; margin-bottom: 12px; }
+    .section-title { font-family: 'Playfair Display', serif; font-size: clamp(1.9rem, 3.5vw, 2.8rem); font-weight: 700; line-height: 1.22; color: var(--dark); margin-bottom: 16px; }
+    .section-sub { font-size: 1rem; color: var(--mid); max-width: 540px; margin-bottom: 56px; }
+
+    /* SERVICES */
+    .services { background: var(--white); }
+    .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2px; }
+    .service-card { padding: 48px 36px; background: var(--cream); transition: background .25s; position: relative; }
+    .service-card:hover { background: var(--cream-md); }
+    .service-card::before { content: ''; position: absolute; top: 0; left: 36px; width: 32px; height: 2px; background: var(--gold); }
+    .service-num { font-family: 'Playfair Display', serif; font-size: 3rem; font-weight: 700; color: var(--cream-md); line-height: 1; margin-bottom: 16px; }
+    .service-card:hover .service-num { color: rgba(184,147,90,.2); }
+    .service-card h3 { font-family: 'Playfair Display', serif; font-size: 1.35rem; font-weight: 600; color: var(--dark); margin-bottom: 12px; }
+    .service-card p { font-size: .93rem; color: var(--mid); }
+    .service-photos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; margin-top: 2px; }
+    .service-photo { height: 260px; overflow: hidden; }
+    .service-photo img { width: 100%; height: 100%; object-fit: cover; transition: transform .45s; }
+    .service-photo:hover img { transform: scale(1.05); }
+
+    /* ABOUT */
+    .about { background: var(--dark); color: var(--white); }
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+    .about .section-title { color: var(--white); }
+    .about .section-sub { color: rgba(255,255,255,.6); max-width: 100%; }
+    .about-body { font-size: 1rem; color: rgba(255,255,255,.7); margin-bottom: 32px; line-height: 1.75; }
+    .about-stats { display: flex; gap: 48px; margin-top: 40px; }
+    .stat-num { font-family: 'Playfair Display', serif; font-size: 2.8rem; font-weight: 700; color: var(--gold); line-height: 1; display: block; }
+    .stat-label { font-size: .78rem; letter-spacing: .1em; text-transform: uppercase; color: rgba(255,255,255,.45); display: block; margin-top: 6px; }
+    .about-photo { position: relative; border-radius: var(--radius); overflow: hidden; height: 500px; }
+    .about-photo img { width: 100%; height: 100%; object-fit: cover; }
+    .about-photo-caption { position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(transparent, rgba(28,24,20,.85)); padding: 40px 28px 28px; }
+    .about-photo-caption blockquote { font-family: 'Playfair Display', serif; font-size: 1rem; font-style: italic; color: rgba(255,255,255,.9); line-height: 1.55; margin-bottom: 10px; }
+    .about-photo-caption cite { font-size: .72rem; letter-spacing: .1em; text-transform: uppercase; color: var(--gold); font-style: normal; }
+
+    /* PRICING */
+    .pricing { background: var(--cream); }
+    .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; }
+    .price-card { background: var(--white); border: 1px solid var(--cream-md); border-radius: calc(var(--radius)*2); padding: 40px 32px; transition: box-shadow .25s, transform .25s; }
+    .price-card:hover { box-shadow: 0 12px 48px rgba(28,24,20,.08); transform: translateY(-4px); }
+    .price-card.featured { background: var(--dark); border-color: var(--gold); color: var(--white); }
+    .price-name { font-family: 'Playfair Display', serif; font-size: 1.25rem; font-weight: 600; margin-bottom: 8px; }
+    .price-desc { font-size: .88rem; color: var(--mid); margin-bottom: 28px; }
+    .price-card.featured .price-desc { color: rgba(255,255,255,.55); }
+    .price-amount { font-family: 'Playfair Display', serif; font-size: 2.8rem; font-weight: 700; line-height: 1; color: var(--gold); margin-bottom: 4px; }
+    .price-amount span { font-size: 1.1rem; font-weight: 400; vertical-align: top; padding-top: 8px; display: inline-block; }
+    .price-from { font-size: .8rem; color: var(--light-txt); margin-bottom: 28px; }
+    .price-card.featured .price-from { color: rgba(255,255,255,.4); }
+    .price-includes { list-style: none; margin-bottom: 32px; }
+    .price-includes li { font-size: .88rem; color: var(--mid); padding: 8px 0; border-bottom: 1px solid var(--cream-md); display: flex; align-items: center; gap: 10px; }
+    .price-card.featured .price-includes li { color: rgba(255,255,255,.65); border-color: rgba(255,255,255,.08); }
+    .price-includes li::before { content: '✓'; color: var(--gold); font-weight: 600; font-size: .8rem; flex-shrink: 0; }
+    .price-card .btn { width: 100%; text-align: center; }
+
+    /* REVIEWS */
+    .reviews { background: var(--white); }
+    .reviews-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px; }
+    .review-card { background: var(--cream); padding: 32px 28px; border-radius: calc(var(--radius)*2); }
+    .review-stars { color: var(--gold); font-size: .85rem; letter-spacing: 2px; margin-bottom: 16px; }
+    .review-text { font-family: 'Playfair Display', serif; font-size: 1rem; font-style: italic; color: var(--dark); line-height: 1.65; margin-bottom: 20px; }
+    .review-author { font-size: .8rem; font-weight: 500; letter-spacing: .06em; text-transform: uppercase; color: var(--light-txt); }
+
+    /* GALLERY */
+    .gallery { background: var(--dark); padding-bottom: 0; }
+    .gallery .section-title { color: var(--white); }
+    .gallery .section-sub { color: rgba(255,255,255,.55); }
+    .gallery-strip { display: grid; grid-template-columns: repeat(4, 1fr); gap: 3px; margin-top: 48px; }
+    .gallery-cell { height: 320px; overflow: hidden; }
+    .gallery-cell img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s; }
+    .gallery-cell:hover img { transform: scale(1.06); }
+
+    /* CONTACT */
+    .contact { background: var(--cream-md); }
+    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: start; }
+    .info-block { margin-bottom: 36px; }
+    .info-label { font-size: .72rem; font-weight: 500; letter-spacing: .16em; text-transform: uppercase; color: var(--gold); margin-bottom: 6px; }
+    .info-value { font-size: 1rem; color: var(--dark); }
+    .info-value a { color: var(--dark); text-decoration: none; }
+    .info-value a:hover { color: var(--gold); }
+    .hours-table { width: 100%; border-collapse: collapse; }
+    .hours-table tr td { padding: 7px 0; font-size: .93rem; color: var(--mid); border-bottom: 1px solid rgba(0,0,0,.07); }
+    .hours-table tr td:first-child { color: var(--dark); font-weight: 500; }
+    .hours-table tr:last-child td { border-bottom: none; }
+    .hours-table .closed { color: var(--light-txt); font-style: italic; }
+    .map-container { border-radius: calc(var(--radius)*2); overflow: hidden; box-shadow: 0 8px 32px rgba(28,24,20,.1); }
+    .map-container iframe { width: 100%; height: 380px; border: 0; display: block; }
+
+    /* FAQ */
+    .faq { background: var(--white); }
+    .faq-list { max-width: 680px; }
+    .faq-item { border-bottom: 1px solid var(--cream-md); padding: 24px 0; }
+    .faq-q { font-family: 'Playfair Display', serif; font-size: 1.05rem; font-weight: 600; color: var(--dark); margin-bottom: 10px; }
+    .faq-a { font-size: .93rem; color: var(--mid); }
+
+    /* FOOTER */
+    footer { background: var(--dark); color: rgba(255,255,255,.5); padding: 40px; text-align: center; font-size: .82rem; }
+    footer strong { color: rgba(255,255,255,.8); }
+    .footer-gold { color: var(--gold); }
+
+    /* PHONE MODAL */
+    .phone-modal-overlay { display: none; position: fixed; inset: 0; z-index: 999; background: rgba(28,24,20,.55); backdrop-filter: blur(4px); align-items: center; justify-content: center; }
+    .phone-modal-overlay.open { display: flex; }
+    .phone-modal { background: var(--white); border-radius: 12px; padding: 48px 40px 40px; text-align: center; max-width: 360px; width: 90%; position: relative; box-shadow: 0 24px 80px rgba(28,24,20,.25); animation: modal-in .18s ease; }
+    @keyframes modal-in { from { opacity: 0; transform: translateY(12px) scale(.97); } to { opacity: 1; transform: none; } }
+    .phone-modal-close { position: absolute; top: 14px; right: 16px; background: none; border: none; cursor: pointer; font-size: 1.4rem; color: var(--light-txt); line-height: 1; padding: 4px; }
+    .phone-modal-close:hover { color: var(--dark); }
+    .phone-modal-eyebrow { font-size: .72rem; font-weight: 500; letter-spacing: .16em; text-transform: uppercase; color: var(--gold); margin-bottom: 10px; }
+    .phone-modal h3 { font-family: 'Playfair Display', serif; font-size: 1.3rem; color: var(--dark); margin-bottom: 28px; }
+    .phone-modal-number { display: inline-block; font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 700; color: var(--gold); text-decoration: none; border: 2px solid var(--gold); border-radius: 8px; padding: 14px 28px; transition: background .2s, color .2s; }
+    .phone-modal-number:hover { background: var(--gold); color: var(--white); }
+    .phone-modal-hint { font-size: .8rem; color: var(--light-txt); margin-top: 16px; }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      nav { padding: 16px 20px; }
+      .nav-links { display: none; }
+      section { padding: 64px 20px; }
+      .hero { padding: 100px 20px 60px; }
+      .hero-inner { grid-template-columns: 1fr; gap: 40px; }
+      .hero-image-wrap { height: 300px; }
+      .service-photos { grid-template-columns: 1fr; }
+      .service-photo { height: 220px; }
+      .about-grid { grid-template-columns: 1fr; gap: 48px; }
+      .about-photo { height: 380px; }
+      .about-stats { gap: 32px; }
+      .gallery-strip { grid-template-columns: repeat(2, 1fr); }
+      .gallery-cell { height: 200px; }
+      .contact-grid { grid-template-columns: 1fr; gap: 40px; }
+      {% if b.year %}.hero-since { display: none; }{% endif %}
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">{{ b.name }}</a>
+  <ul class="nav-links">
+    <li><a href="#servizi">Servizi</a></li>
+    {% if b.prices %}<li><a href="#tariffe">Tariffe</a></li>{% endif %}
+    <li><a href="#chi-siamo">Chi siamo</a></li>
+    <li><a href="#contatti">Contatti</a></li>
+  </ul>
+  <a href="tel:{{ b.phone_raw }}" class="btn">Prenota ora</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-text">
+      <span class="hero-eyebrow">{{ b.category }} · {{ b.city }}</span>
+      <h1>{{ b.hero_title | safe }}</h1>
+      <p>{{ b.hero_subtitle }}</p>
+      <div class="hero-ctas">
+        <a href="tel:{{ b.phone_raw }}" class="btn">Prenota un appuntamento</a>
+        <a href="#servizi" class="btn btn-outline">Scopri i servizi</a>
+      </div>
+    </div>
+    {% if b.images.hero %}
+    <div class="hero-image-wrap">
+      <img src="{{ b.images.hero }}" alt="{{ b.name }}" />
+    </div>
+    {% endif %}
+  </div>
+  {% if b.year %}
+  <div class="hero-since">
+    <div class="since-num">{{ b.year }}</div>
+    <div class="since-label">Anno di fondazione</div>
+  </div>
+  {% endif %}
+</section>
+
+<!-- SERVICES -->
+<section class="services" id="servizi">
+  <div class="container">
+    <span class="section-eyebrow">Cosa facciamo</span>
+    <h2 class="section-title">I nostri servizi</h2>
+    <p class="section-sub">Professionalità e cura per ogni cliente, {{ b.city }}.</p>
+    <div class="services-grid">
+      {% for s in b.services %}
+      <div class="service-card">
+        <div class="service-num">0{{ loop.index }}</div>
+        <h3>{{ s.name }}</h3>
+        <p>{{ s.desc }}</p>
+      </div>
+      {% endfor %}
+    </div>
+    {% if b.images.hair %}
+    <div class="service-photos">
+      {% for img in b.images.hair %}
+      <div class="service-photo"><img src="{{ img }}" alt="Servizio {{ loop.index }}" loading="lazy" /></div>
+      {% endfor %}
+    </div>
+    {% endif %}
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about" id="chi-siamo">
+  <div class="container">
+    <div class="about-grid">
+      <div>
+        <span class="section-eyebrow">La nostra storia</span>
+        <h2 class="section-title">{{ b.about_title | safe }}</h2>
+        <p class="about-body">{{ b.description }}</p>
+        {% if b.address %}
+        <p class="about-body">
+          Ci trovi in {{ b.address }}{% if b.neighborhood %}, {{ b.neighborhood }}{% endif %}.
+        </p>
+        {% endif %}
+        <div class="about-stats">
+          {% if b.year %}
+          <div>
+            <span class="stat-num">{{ 2025 - b.year|int }}+</span>
+            <span class="stat-label">Anni di esperienza</span>
+          </div>
+          {% endif %}
+          <div>
+            <span class="stat-num">5★</span>
+            <span class="stat-label">Su Google</span>
+          </div>
+        </div>
+      </div>
+      {% if b.images.staff %}
+      <div class="about-photo">
+        <img src="{{ b.images.staff }}" alt="{{ b.name }}" loading="lazy" />
+        <div class="about-photo-caption">
+          <blockquote>"{{ b.quote_text }}"</blockquote>
+          <cite>— {{ b.quote_author }}</cite>
+        </div>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+{% if b.prices %}
+<section class="pricing" id="tariffe">
+  <div class="container">
+    <span class="section-eyebrow">I nostri prezzi</span>
+    <h2 class="section-title">Servizi su misura<br/>per ogni esigenza</h2>
+    <p class="section-sub">Prezzi chiari, senza sorprese.</p>
+    <div class="pricing-grid">
+      {% for p in b.prices %}
+      <div class="price-card {% if p.featured %}featured{% endif %}">
+        <div class="price-name">{{ p.name }}</div>
+        <div class="price-desc">{{ p.desc }}</div>
+        <div class="price-amount"><span>da</span> {{ p.amount }}<span>€</span></div>
+        <div class="price-from">&nbsp;</div>
+        <ul class="price-includes">
+          {% for item in p.features %}
+          <li>{{ item }}</li>
+          {% endfor %}
+        </ul>
+        <a href="tel:{{ b.phone_raw }}" class="btn {% if not p.featured %}btn-outline{% endif %}">Prenota</a>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<!-- REVIEWS -->
+<section class="reviews">
+  <div class="container">
+    <span class="section-eyebrow">Recensioni clienti</span>
+    <h2 class="section-title">La fiducia dei nostri clienti</h2>
+    <p class="section-sub">{{ b.name }}, {{ b.city }}.</p>
+    <div class="reviews-grid">
+      {% for r in b.reviews %}
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">"{{ r.text }}"</p>
+        <div class="review-author">{{ r.author }}</div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+{% if b.images.salon %}
+<section class="gallery">
+  <div class="container">
+    <span class="section-eyebrow">Il nostro spazio</span>
+    <h2 class="section-title">Vieni a trovarci</h2>
+    <p class="section-sub">Un ambiente curato e professionale nel cuore di {{ b.city }}.</p>
+  </div>
+  <div class="gallery-strip">
+    {% for img in b.images.salon %}
+    <div class="gallery-cell"><img src="{{ img }}" alt="{{ b.name }} – foto {{ loop.index }}" loading="lazy" /></div>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
+
+<!-- CONTACT -->
+<section class="contact" id="contatti">
+  <div class="container">
+    <span class="section-eyebrow">Dove siamo</span>
+    <h2 class="section-title">Vieni a trovarci</h2>
+    <div class="contact-grid">
+      <div class="contact-info">
+        {% if b.address %}
+        <div class="info-block">
+          <div class="info-label">Indirizzo</div>
+          <div class="info-value">{{ b.address }}<br/>{{ b.zip }} {{ b.city }}{% if b.neighborhood %} ({{ b.neighborhood }}){% endif %}</div>
+        </div>
+        {% endif %}
+        <div class="info-block">
+          <div class="info-label">Telefono</div>
+          <div class="info-value"><a href="tel:{{ b.phone_raw }}">{{ b.phone }}</a></div>
+        </div>
+        {% if b.email %}
+        <div class="info-block">
+          <div class="info-label">Email</div>
+          <div class="info-value"><a href="mailto:{{ b.email }}">{{ b.email }}</a></div>
+        </div>
+        {% endif %}
+        {% if b.hours %}
+        <div class="info-block">
+          <div class="info-label">Orari</div>
+          <table class="hours-table">
+            {% for h in b.hours %}
+            <tr>
+              <td>{{ h.day }}</td>
+              <td {% if h.closed %}class="closed"{% endif %}>{{ h.time }}</td>
+            </tr>
+            {% endfor %}
+          </table>
+        </div>
+        {% endif %}
+        <a href="tel:{{ b.phone_raw }}" class="btn">Chiama per prenotare</a>
+      </div>
+      <div>
+        <div class="map-container">
+          <iframe
+            src="https://maps.google.com/maps?q={{ b.map_query }}&output=embed"
+            allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+          </iframe>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq">
+  <div class="container">
+    <span class="section-eyebrow">Domande frequenti</span>
+    <h2 class="section-title">Hai domande?</h2>
+    <div class="faq-list">
+      {% for f in b.faq %}
+      <div class="faq-item">
+        <div class="faq-q">{{ f.q }}</div>
+        <div class="faq-a">{{ f.a }}</div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p><strong>{{ b.name }}</strong> &nbsp;·&nbsp; {{ b.address }}, {{ b.zip }} {{ b.city }} &nbsp;·&nbsp; <a href="tel:{{ b.phone_raw }}" class="footer-gold">{{ b.phone }}</a></p>
+  <p style="margin-top:10px">© 2025 {{ b.name }} &nbsp;·&nbsp; <span style="font-size:.78rem">Sito realizzato da <span class="footer-gold">Massimo Dassano</span></span></p>
+</footer>
+
+<!-- PHONE MODAL -->
+<div class="phone-modal-overlay" id="phoneModal">
+  <div class="phone-modal" role="dialog" aria-modal="true">
+    <button class="phone-modal-close" id="phoneModalClose" aria-label="Chiudi">×</button>
+    <div class="phone-modal-eyebrow">Prenota il tuo appuntamento</div>
+    <h3>Chiamaci direttamente</h3>
+    <a href="tel:{{ b.phone_raw }}" class="phone-modal-number">{{ b.phone }}</a>
+    {% if b.hours %}
+    <p class="phone-modal-hint">{{ b.hours_hint }}</p>
+    {% endif %}
+  </div>
+</div>
+
+<script>
+  const modal = document.getElementById('phoneModal');
+  const closeBtn = document.getElementById('phoneModalClose');
+  document.querySelectorAll('a[href^="tel:"]').forEach(function(btn) {
+    btn.addEventListener('click', function(e) {
+      if (window.innerWidth >= 768) { e.preventDefault(); modal.classList.add('open'); }
+    });
+  });
+  closeBtn.addEventListener('click', function() { modal.classList.remove('open'); });
+  modal.addEventListener('click', function(e) { if (e.target === modal) modal.classList.remove('open'); });
+  document.addEventListener('keydown', function(e) { if (e.key === 'Escape') modal.classList.remove('open'); });
+</script>
+</body>
+</html>
