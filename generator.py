@@ -348,44 +348,59 @@ def _gen_template_html(slug, name, url, category):
 
 def estimate_complexity(url):
     """
-    Scrapa il sito e restituisce un dict con:
-      sections, images, cost_min, cost_max, level, name, contacts
-    Senza fare nessuna chiamata Claude.
+    Scrapa il sito e restituisce la stima di costo con range ±20%.
+
+    Calibrazione basata su dati reali:
+      - CSS call output:  ~2500 token (consistente)
+      - HTML output:      ~1200 token per sezione + 1500 overhead
+      - Input HTML call:  (manifest_chars + html_chars) / 4 + 600
+      - Input CSS call:   ~400 token
     """
     html_clean, manifest, image_urls = scrape_full(url)
     if html_clean is None:
         return {"error": manifest.get("error", "Sito non raggiungibile")}
 
-    n_sec  = len(manifest.get("sections", []))
-    n_img  = len(image_urls)
-    name   = manifest.get("contacts", {}).get("name", "")
-    city   = manifest.get("contacts", {}).get("city", "")
+    n_sec = len(manifest.get("sections", []))
+    n_img = len(image_urls)
+    name  = manifest.get("contacts", {}).get("name", "")
+    city  = manifest.get("contacts", {}).get("city", "")
 
-    # Stima token
+    # --- Stima token output ---
+    css_out  = 2500                               # Call 1: CSS brand
+    html_out = n_sec * 1200 + 1500                # Call 2: HTML body
+    html_out = min(html_out, 8192 + 3 * 4096)     # cap a 3 continuazioni max
+    total_out = css_out + html_out
+
+    # --- Stima token input ---
     manifest_chars = len(json.dumps(manifest))
     html_chars     = len(html_clean)
-    est_input  = (manifest_chars + html_chars) // 4 + 600
-    est_output = 8192 + 4096  # base + 1 continuazione tipica
+    css_in   = 400
+    html_in  = (manifest_chars + html_chars) // 4 + 600
+    total_in = css_in + html_in
 
-    cost_min = (est_input / 1_000_000 * PRICE_IN)  + (est_output       / 1_000_000 * PRICE_OUT)
-    cost_max = (est_input / 1_000_000 * PRICE_IN)  + (est_output + 8192 / 1_000_000 * PRICE_OUT)
+    # --- Costo centrale ---
+    cost_central = (total_in / 1_000_000 * PRICE_IN) + (total_out / 1_000_000 * PRICE_OUT)
 
-    if n_sec <= 8:
+    # --- Range ±20% ---
+    cost_min = round(cost_central * 0.80, 3)
+    cost_max = round(cost_central * 1.20, 3)
+
+    if n_sec <= 6:
         level = "semplice"
-    elif n_sec <= 16:
+    elif n_sec <= 14:
         level = "medio"
     else:
         level = "complesso"
 
     return {
-        "name":     name,
-        "city":     city,
-        "sections": n_sec,
-        "images":   n_img,
-        "cost_min": round(cost_min, 3),
-        "cost_max": round(cost_max, 3),
-        "level":    level,
-        "manifest": manifest,
+        "name":       name,
+        "city":       city,
+        "sections":   n_sec,
+        "images":     n_img,
+        "cost_min":   cost_min,
+        "cost_max":   cost_max,
+        "level":      level,
+        "manifest":   manifest,
         "image_urls": image_urls,
         "html_clean": html_clean,
     }
