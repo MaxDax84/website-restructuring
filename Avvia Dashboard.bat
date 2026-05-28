@@ -12,6 +12,5 @@ if %errorlevel% == 0 (
 echo Avvio dashboard mockup...
 echo Tieni questa finestra aperta mentre lavori.
 echo.
-start /min "" cmd /c "timeout /t 2 >nul && start "" http://localhost:5000"
 .\venv\Scripts\python.exe dashboard.py
 pause

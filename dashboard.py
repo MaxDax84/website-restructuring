@@ -434,17 +434,18 @@ function analyzeNewSite(){
     if(d.error){alert('Errore: '+d.error);return;}
 
     const lvlColor = d.level==='semplice'?'#1a6632': d.level==='medio'?'#856404':'#9b2335';
-    const lvlLabel = d.level==='semplice'?'Semplice — generazione veloce':
-                     d.level==='medio'   ?'Medio — buona qualita\' attesa':
-                                          'Complesso — potrebbe richiedere piu\' continuazioni';
+    let lvlLabel = 'Complesso - potrebbe richiedere piu continuazioni';
+    if(d.level==='semplice') lvlLabel='Semplice - generazione veloce';
+    else if(d.level==='medio') lvlLabel='Medio - buona qualita attesa';
+    const cityRow = d.city ? '<tr><td style="padding:5px 0;color:#8A7B70">Citta</td><td><strong>'+d.city+'</strong></td></tr>' : '';
     document.getElementById('analysis-result').innerHTML =
       '<table style="width:100%;border-collapse:collapse">'+
       '<tr><td style="padding:5px 0;color:#8A7B70">Sito</td><td><strong>'+d.url+'</strong></td></tr>'+
       '<tr><td style="padding:5px 0;color:#8A7B70">Sezioni trovate</td><td><strong>'+d.sections+'</strong></td></tr>'+
       '<tr><td style="padding:5px 0;color:#8A7B70">Immagini trovate</td><td><strong>'+d.images+'</strong></td></tr>'+
-      (d.city?'<tr><td style="padding:5px 0;color:#8A7B70">Citta\'</td><td><strong>'+d.city+'</strong></td></tr>':'')+
-      '<tr><td style="padding:5px 0;color:#8A7B70">Complessita\'</td><td><strong style="color:'+lvlColor+'">'+lvlLabel+'</strong></td></tr>'+
-      '<tr><td style="padding:5px 0;color:#8A7B70">Costo stimato</td><td><strong style="color:#B8935A">$'+d.cost_min+' – $'+d.cost_max+'</strong></td></tr>'+
+      cityRow+
+      '<tr><td style="padding:5px 0;color:#8A7B70">Complessita</td><td><strong style="color:'+lvlColor+'">'+lvlLabel+'</strong></td></tr>'+
+      '<tr><td style="padding:5px 0;color:#8A7B70">Costo stimato</td><td><strong style="color:#B8935A">$'+d.cost_min+' - $'+d.cost_max+'</strong></td></tr>'+
       '</table>';
 
     document.getElementById('btn-claude').textContent = 'Genera con Claude (~$'+d.cost_max+')';
